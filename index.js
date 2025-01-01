@@ -1,4 +1,5 @@
 const express = require("express");
+const { swaggerUi, swaggerDocs } = require('./config/swagger');
 const cors = require("cors");
 require("dotenv").config();
 
@@ -20,6 +21,9 @@ app.use(cors());
 app.get("/", (req, res) => {
      res.send("Welcome to the Kanban Board API Home Page!");
 });
+
+// Swagger Documentation Route
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 // Authentication Routes
 app.use("/", authRoutes);
@@ -47,4 +51,4 @@ app.listen(PORT, async () => {
      } catch (error) {
           console.error("Database connection error:", error.message);
      }
-})
+});
