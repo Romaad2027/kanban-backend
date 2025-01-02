@@ -1,6 +1,5 @@
 const Task = require('../models/task.model');
 const Board = require('../models/board.model');
-const SubTask = require('../models/subTask.model');
 
 // Helper function to handle async requests
 const executeAsyncRequest = async (req, res, action) => {
@@ -66,8 +65,6 @@ const removeBoard = async (req, res) => {
           // Delete tasks and associated subtasks
           const taskDeletionPromises = board.tasks.map(async (taskId) => {
                const task = await Task.findById(taskId);
-               const subtaskDeletionPromises = task.subtask.map((subtaskId) => SubTask.findByIdAndDelete(subtaskId));
-               await Promise.all(subtaskDeletionPromises);
                await Task.findByIdAndDelete(taskId);
           });
 

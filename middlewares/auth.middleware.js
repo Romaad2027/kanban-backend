@@ -13,7 +13,6 @@ const verifyAuthToken = (req, res, next) => {
           if (err) {
                return res.status(401).json({ message: "JWT verification failed", error: err });
           }
-
           try {
                const user = await User.findById(decodedToken.userId);
 

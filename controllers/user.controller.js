@@ -18,6 +18,8 @@ const loginUser = async (req, res) => {
                               process.env.SECRET_KEY,
                               { expiresIn: '24h' }
                          );
+                         console.log(token)
+
                          res.status(200).json({ message: "Login successful", user: { ...foundUser._doc, token } });
                     } else {
                          res.status(400).json({ message: "Incorrect Password!" });

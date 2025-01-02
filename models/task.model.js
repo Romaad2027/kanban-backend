@@ -17,10 +17,10 @@ const taskSchema = mongoose.Schema({
           },
           default: 'Todo'
      },
-     subtask: [
+     track_ids: [
           {
                type: mongoose.Schema.Types.ObjectId,
-               ref: 'subtask'
+               ref: 'track'
           }
      ]
 }, { timestamps: true })

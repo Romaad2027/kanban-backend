@@ -7,7 +7,7 @@ const authRoutes = require("./routes/auth.routes");
 const authenticate = require("./middlewares/auth.middleware");
 const boardRoutes = require("./routes/board.routes");
 const taskRoutes = require("./routes/task.routes");
-const subTaskRoutes = require("./routes/subTask.routes");
+const trackRoutes = require("./routes/track.routes");
 
 // Initialize the app
 const app = express();
@@ -28,7 +28,7 @@ app.use("/", authRoutes);
 app.use(authenticate);
 app.use("/board", boardRoutes);
 app.use("/task", taskRoutes);
-app.use("/subtask", subTaskRoutes);
+app.use("/track", trackRoutes);
 
 // Handle Invalid Routes
 app.use("*", (req, res) => {

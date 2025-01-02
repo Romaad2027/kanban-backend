@@ -1,6 +1,6 @@
 const Task = require('../models/task.model');
 const Board = require('../models/board.model');
-const SubTask = require('../models/subTask.model');
+const Track = require('../models/track.model');
 
 // Helper function to handle async requests
 const executeAsyncRequest = async (req, res, action) => {
@@ -20,28 +20,7 @@ const createNewTask = async (req, res) => {
           // Find the board to store the specific task
           const board = await Board.findById(boardId);
 
-          // Store the created subtask IDs
-          let subTaskIds = [];
-
-          // Create subtasks for the specific task
-          if (taskData.subtask) {
-               try {
-                    subTaskIds = await Promise.all(
-                         taskData.subtask.map(async (subtaskTitle) => {
-                              const newSubTask = new SubTask({ title: subtaskTitle });
-                              await newSubTask.save();
-                              return newSubTask._id;
-                         })
-                    );
-               } catch (error) {
-                    console.log('Error in subtask creation:', error);
-                    res.status(500).json({ message: error.message, error });
-                    return;
-               }
-          }
-
-          // Create the new task with the subtask IDs
-          const newTask = new Task({ ...taskData, subtask: subTaskIds });
+          const newTask = new Task({ ...taskData });
 
           // Add the task's ID to the board's task list
           board.tasks.push(newTask._id);
@@ -77,7 +56,7 @@ const removeTask = async (req, res) => {
 
           // Delete all subtasks associated with the task
           try {
-               await Promise.all(task.subtask.map(async (subtaskId) => await SubTask.findByIdAndDelete(subtaskId)));
+               await Promise.all(task.track_ids.map(async (trackId) => await Track.findByIdAndDelete(subtaskId)));
           } catch (error) {
                console.log('Error while deleting subtasks:', error);
                res.status(500).json({ message: 'Error while deleting the Subtasks', error });
